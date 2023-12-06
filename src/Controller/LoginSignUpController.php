@@ -13,7 +13,7 @@ class LoginSignUpController extends AbstractController
      */
     public function login(): Response
     {
-        return $this->render('LoginSignUp/login.html.twig', [
+        return $this->render('templates/base.html.twig', [
             'login' => 'ta mere'
     ]);
     }
