@@ -8,7 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginSignUpController extends AbstractController
 {
-    #[Route('/login', name: 'login')]
+    /**
+     * @Route("/login", name="login_form")
+     */
     public function login(): Response
     {
         return $this->render('base.html.twig', [
