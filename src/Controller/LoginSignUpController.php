@@ -8,23 +8,31 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginSignUpController extends AbstractController
 {
+        /**
+     * @Route("/test", name="test_route")
+     */
+    public function test(): Response
+    {
+        return new Response('Test route');
+    }
+
     /**
      * @Route("/login", name="login_form")
      */
     public function login(): Response
     {
         return $this->render('LoginSignUp/login.html.twig', [
-            'login' => 'ta mere'
-    ]);
+            'login' => 'ta mere',
+        ]);
     }
 
-        /**
+    /**
      * @Route("/signup", name="signup_form")
      */
     public function signup(): Response
     {
         return $this->render('LoginSignUp/signup.html.twig', [
-            'signup' => 'ta mere'
-    ]);
+            'signup' => 'ta mere',
+        ]);
     }
 }
