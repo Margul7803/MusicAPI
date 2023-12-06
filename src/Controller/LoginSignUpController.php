@@ -8,18 +8,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginSignUpController extends AbstractController
 {
-    #[Route('/login', name: 'app_LoginSignUp')]
+    /**
+     * @Route("/login", name="login_form")
+     */
     public function login(): Response
     {
-        return $this->render('loginSignUp/login.html.twig', [
-            'login' => 'LoginSignUpController',
-        ]);
+        return $this->render('LoginSignUp/login.html.twig', [
+            'login' => 'ta mere'
+    ]);
     }
-    #[Route('/signup', name: 'app_LoginSignUp')]
+
+        /**
+     * @Route("/signup", name="signup_form")
+     */
     public function signup(): Response
     {
-        return $this->render('loginSignUp/signup.html.twig', [
-            'signup' => 'LoginSignUpController',
-        ]);
+        return $this->render('LoginSignUp/signup.html.twig', [
+            'signup' => 'ta mere'
+    ]);
     }
 }
