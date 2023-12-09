@@ -26,22 +26,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
-    #[ORM\Column]
-    private ?string $nom = null;
-
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $tel = null;
 
-    #[ORM\Column]
-    private ?string $token = null;
-
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\OneToOne(inversedBy: 'utilisateur', cascade: ['persist', 'remove'])]
+    private ?Artiste $Artiste = null;
 
     public function getId(): ?int
     {
@@ -89,61 +89,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): static
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-    public function getTel(): ?string
-    {
-        return $this->tel;
-    }
-
-    public function setTel(string $tel): static
-    {
-        $this->tel = $tel;
-
-        return $this;
-    }
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(string $token): static
-    {
-        $this->token = $token;
-
-        return $this;
-    }
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -166,5 +111,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(string $tel): static
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    public function getArtiste(): ?Artiste
+    {
+        return $this->Artiste;
+    }
+
+    public function setArtiste(?Artiste $Artiste): static
+    {
+        $this->Artiste = $Artiste;
+
+        return $this;
     }
 }
