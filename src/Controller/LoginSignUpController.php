@@ -8,14 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginSignUpController extends AbstractController
 {
-        /**
-     * @Route("/test", name="test_route")
-     */
-    public function test(): Response
-    {
-        return new Response('Test route');
-    }
-
     /**
      * @Route("/login", name="login_form")
      */
