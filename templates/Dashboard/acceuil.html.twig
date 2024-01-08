@@ -32,7 +32,7 @@
                 fill="currentColor"
               ></path>
             </svg>
-            Home
+            Accueil
           </div>
           <div
             class="flex font-medium items-center px-4 py-2 rounded text-sm text-gray-100 hover:text-white"
@@ -50,7 +50,7 @@
                 fill-rule="evenodd"
               ></path>
             </svg>
-            Search
+            Rechercher
           </div>
           <div
             class="flex font-medium items-center px-4 py-2 rounded text-sm text-gray-100 hover:text-white"
@@ -67,7 +67,7 @@
                 fill="currentColor"
               ></path>
             </svg>
-            Your Library
+            Bibliothèque
           </div>
         </div>
         <div>
@@ -154,141 +154,11 @@
             </button>
           </div>
         </header>
-        <section class="px-6 grid gap-6 mb-8">
-          <div class="flex items-center">
-            <div class="flex-1">
-              <h3 class="text-2xl text-white">
-                <a
-                  class="border-b border-transparent hover:border-white"
-                  href=""
-                  >Recently played</a
-                >
-              </h3>
-            </div>
-            <div>
-              <a
-                class="text-xs text-black tracking-widest uppercase hover:underline"
-                href=""
-                >See all</a
-              >
-            </div>
-          </div>
-          <div class="grid grid-cols-6 gap-4">
-            <div class="bg-gray-200 rounded-lg p-5">
-              <div class="relative pt-full mb-4">
-                <img
-                  class="block w-full absolute inset-0"
-                  src="https://picsum.photos/129.webp?random=1"
-                  alt=""
-                />
-              </div>
-              <div class="text-sm text-white text-line-clamp-1 mb-1 block">
-                Chinese Lo-FI
-              </div>
-              <div class="relative pb-5">
-                <span class="text-xs text-gray-100 text-line-clamp-1"
-                  >By @Nike1nike</span
-                >
-                <button
-                  class="absolute right-0 top-0 w-10 h-10 bg-purple-400 rounded-full flex text-white"
-                >
-                  <svg
-                    class="fill-current h-5 w-5 m-auto"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="bg-gray-400 rounded-lg p-5"> 
-              <div class="relative pt-full mb-4">
-                <img
-                  class="block w-full absolute inset-0"
-                  src="https://picsum.photos/129.webp?random=2"
-                  alt=""
-                />
-              </div>
-              <div class="text-sm text-white text-line-clamp-1 mb-1 block">
-                FLY
-              </div>
-              <div class="relative pb-5">
-                <span class="text-xs text-gray-100 text-line-clamp-1"
-                  >Gaho</span
-                >
-              </div>
-            </div>
-            <div class="bg-gray-400 rounded-lg p-5">
-              <div class="relative pt-full mb-4">
-                <img
-                  class="block w-full absolute inset-0"
-                  src="https://picsum.photos/129.webp?random=3"
-                  alt=""
-                />
-              </div>
-              <div class="text-sm text-white text-line-clamp-1 mb-1 block">
-                Ludwig van Beethoven
-              </div>
-              <div class="relative pb-5">
-                <span class="text-xs text-gray-100 text-line-clamp-1"
-                  >Artist</span
-                >
-              </div>
-            </div>
-            <div class="bg-gray-200 rounded-lg p-5">
-              <div class="relative pt-full mb-4">
-                <img
-                  class="block w-full absolute inset-0"
-                  src="https://picsum.photos/129.webp?random=4"
-                  alt=""
-                />
-              </div>
-              <div class="text-sm text-white text-line-clamp-1 mb-1 block">
-                Hotel Del Luna OST
-              </div>
-              <div class="relative pb-5">
-                <span class="text-xs text-gray-100 text-line-clamp-1"
-                  >By Jamie Lee</span
-                >
-              </div>
-            </div>
-            <div class="bg-gray-200 rounded-lg p-5">
-              <div class="relative pt-full mb-4">
-                <img
-                  class="block w-full absolute inset-0"
-                  src="https://picsum.photos/129.webp?random=5"
-                  alt=""
-                />
-              </div>
-              <div class="text-sm text-white text-line-clamp-1 mb-1 block">
-                ITAEWON CLASS (Original Television Soundtrack) Pt.2
-              </div>
-              <div class="relative pb-5">
-                <span class="text-xs text-gray-100 text-line-clamp-1"
-                  >Gaho</span
-                >
-              </div>
-            </div>
-            <div class="bg-gray-200 rounded-lg p-5">
-              <div class="relative pt-full mb-4">
-                <img
-                  class="block w-full absolute inset-0"
-                  src="https://picsum.photos/129.webp?random=6"
-                  alt=""
-                />
-              </div>
-              <div class="text-sm text-white text-line-clamp-1 mb-1 block">
-                Preparation For a Journey
-              </div>
-              <div class="relative pb-5">
-                <span class="text-xs text-gray-100 text-line-clamp-1"
-                  >Gaho</span
-                >
-              </div>
-            </div>
-          </div>
-        </section>
+         <!-- Section Decouvrir -->
+        {% block decouvrir %}
+          {% include 'Dashboard/decouvrir.html.twig' %}
+        {% endblock %}
+        <!-- Fin de Section Decouvrir -->
         <section class="px-6 grid gap-6 mb-8">
           <div class="flex items-center">
             <div class="flex-1">
@@ -314,7 +184,7 @@
                   >By Archie Mari Evardo</span
                 >
                 <button
-                  class="absolute right-0 top-0 w-10 h-10 bg-green-200 rounded-full flex text-white"
+                  class="absolute right-0 top-0 w-10 h-10 bg-gray-200 rounded-full flex text-white"
                 >
                   <svg
                     class="fill-current h-5 w-5 m-auto"
@@ -428,7 +298,7 @@
               <a
                 class="text-xs text-gray-100 tracking-widest uppercase hover:underline"
                 href=""
-                >See all</a
+                >VOIR TOUT</a
               >
             </div>
           </div>
@@ -638,7 +508,7 @@
             <div class="overflow-hidden relative flex-1 mx-2 rounded">
               <div class="border-b-4 border-gray-200 rounded"></div>
               <div
-                class="absolute inset-x-0 top-0 -translate-x-48 border-b-4 border-gray-700 rounded transform hover:border-green-200"
+                class="absolute inset-x-0 top-0 -translate-x-48 border-b-4 border-gray-700 rounded transform hover:border-gray-500"
               ></div>
             </div>
             <span class="text-xs text-gray-200 font-light">5:13</span>
