@@ -1,13 +1,9 @@
+{# Dashboard/acceuil.html.twig #}
 
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - tailwindcss | spotify web player clone</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css'><link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
+{% extends 'base.html.twig' %}
+{% block css %}{% endblock %}
+{% block header %}{% endblock %}
+{% block body %}
 <!-- partial:index.partial.html -->
 <div class="grid grid-rows-3 grid-cols-6 h-full">
       <nav class="col-span-1 row-span-3 bg-gray-700 pt-6">
@@ -651,6 +647,6 @@
       </footer>
     </div>
 <!-- partial -->
-  
-</body>
-</html>
+{% endblock %}
+{% block footer %}{% endblock %}
+{% block script %}{% endblock %}
