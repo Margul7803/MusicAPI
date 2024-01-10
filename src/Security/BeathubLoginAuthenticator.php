@@ -34,11 +34,8 @@ class BeathubLoginAuthenticator extends AbstractLoginFormAuthenticator
     {
         $email = $request->request->get('email', '');
         $request->getSession()->set(Security::LAST_USERNAME, $email);
-
-        // Vérifier si l'utilisateur existe
         $user = $this->userRepository->findOneByEmail($email);
         if (!$user) {
-            // Lever une exception si l'utilisateur n'existe pas
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
@@ -58,7 +55,7 @@ class BeathubLoginAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('/dashboard'));
+        return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
