@@ -29,7 +29,7 @@ class MusiqueController extends AbstractController
         return new Response(json_encode($musiquesArray), 200, ['Content-Type' => 'application/json']);
     }
 
-    #[Route('/musiques/{id}', name: 'list_musiques_albums', methods: ['GET'])]
+    #[Route('/musiques/album/{id}', name: 'list_musiques_albums', methods: ['GET'])]
     public function listMusiquesAlb(ManagerRegistry $orm, $id): Response
     {
         $musiques = $orm->getRepository(Musique::class)->findAll();
@@ -50,6 +50,33 @@ class MusiqueController extends AbstractController
         // Utilisez la classe Response pour retourner une réponse classique
         return $this->render('musique/index.html.twig',
                             ['liste' => $musiquesArray]);
+    }
+
+    #[Route('/musiques/{id}', name: 'list_Autremusiques_albums', methods: ['GET'])]
+    public function listAutreMusiquesAlb(ManagerRegistry $orm, $id): Response
+    {
+        $musique = $orm->getRepository(Musique::class)->find($id);
+        $alb = $musique->getAlbum();
+
+        $musiques = $orm->getRepository(Musique::class)->findAll();
+        $musiquesArray = [];
+        foreach ($musiques as $msc) {
+            $albTemp = $msc->getAlbum();
+            $idAlb = $albTemp->getId();
+            if ($alb->getId() == $idAlb && $msc != $musique) {
+                $musiquesArray[] = [
+                    'id' => $msc->getId(),
+                    'titre' => $msc->getTitre(),
+                    'duree' => $msc->getDuree(),
+                    'dateSortie' => $msc->getDateSortie()->format('Y-m-d'),
+                    'parole' => $msc->getParole(),
+                ];
+            }
+        }
+
+
+        // Utilisez la classe Response pour retourner une réponse classique
+        return $this->json($musiquesArray);
     }
 }
 
