@@ -78,5 +78,12 @@ class MusiqueController extends AbstractController
         // Utilisez la classe Response pour retourner une réponse classique
         return $this->json($musiquesArray);
     }
+
+    #[Route('/musiques/del/{id}', name: 'delete_musique', methods: ['DELETE'])]
+    public function deleteMusique(ManagerRegistry $orm, $id): Response
+    {
+        $musique = $orm->getRepository(Musique::class)->find($id);
+        $orm->getRepository(Musique::class)->remove($musique);
+    }
 }
 
