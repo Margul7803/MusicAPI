@@ -8,13 +8,7 @@
         <meta name="author" content="" />
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-        <title>{% block title %}BeatHub{% endblock %}</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="" />
-        <!-- Core theme CSS (includes Tailwind)-->
-        {% block css %}{% endblock %}
-        <script>
+        <script defer>
             async function callApi(endpoint, body = null) {
                 const response = await fetch(`/api/${endpoint}`, {
                     method: body ? "POST" : "GET",
@@ -24,7 +18,13 @@
                 return await response.json();
             }
         </script>
-        {% block js %}{% endblock %}
+
+        <title>{% block title %}BeatHub{% endblock %}</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="" />
+        <!-- Core theme CSS (includes Tailwind)-->
+        {% block css %}{% endblock %}
+        {% block callApi %}{% endblock %}
     </head>
     <body class="h-full w-full">
         <!-- Section-->
