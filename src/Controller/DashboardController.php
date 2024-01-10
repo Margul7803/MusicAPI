@@ -5,8 +5,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface; // Importez la classe EntityManagerInterface
-use App\Entity\Musique; // Importez la classe Musique
+use Doctrine\ORM\EntityManagerInterface; 
+use App\Entity\Musique; 
+use App\Entity\Album;
+use App\Entity\Artiste;
 
 class DashboardController extends AbstractController
 {
@@ -20,12 +22,21 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(): Response
     {
-        // Récupérez les données de la base de données (par exemple, toutes les musiques)
+        // Récupérer les musiques
         $musiques = $this->entityManager->getRepository(Musique::class)->findAll();
+
+        // Récupérer les albums
+        $albums = $this->entityManager->getRepository(Album::class)->findAll();
+
+        // Récupérer les artists
+        $artistes = $this->entityManager->getRepository(Artiste::class)->findAll();
 
         return $this->render('Dashboard/acceuil.html.twig', [
             'controller_name' => 'DashboardController',
-            'musiques' => $musiques, // Transmettez les musiques à la vue
+            'musiques' => $musiques,
+            'albums' => $albums,
+            'artistes' => $artistes,
         ]);
     }
+
 }
