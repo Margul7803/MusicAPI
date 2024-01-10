@@ -110,4 +110,15 @@
     </div>
   </section>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+  <script> 
+    // Initialization for ES Users
+    import {
+      Input,
+      Ripple,
+      initTE,
+    } from "tw-elements";
+
+    initTE({ Input, Ripple });
+  </script>
+{% endblock %}
