@@ -20,24 +20,74 @@
                     <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 
                     <!-- Email input -->
-                    {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                    <div class="relative mb-4" data-te-input-wrapper-init>
+                    {{ form_row(registrationForm.email, {
+                          'attr': {
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+                          }
+                      }) }}
+                    </div>
 
                     <!-- Password input -->
                     <div class="relative mb-4" data-te-input-wrapper-init>
-                      {{ form_row(registrationForm.plainPassword, {
+                      {{ form_row(registrationForm.password, {
                           'attr': {
-                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
-                              'placeholder': 'Password'
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+
                           }
                       }) }}
-                      <label for="inputPassword" class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">Password</label>
+                    </div>
+
+                    <!-- ConfirmPassword input -->
+                    <div class="relative mb-4" data-te-input-wrapper-init>
+                      {{ form_row(registrationForm.confirm_Password, {
+                          'attr': {
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+
+                          }
+                      }) }}
+                    </div>
+
+                    <!-- Info complementaire -->
+                    <div class="relative mb-4 grid md:grid-cols-2 xl:grid-cols-2 gap-6" data-te-input-wrapper-init>
+                      {{ form_row(registrationForm.prenom, {
+                          'attr': {
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+
+                          }
+                      }) }}
+                      {{ form_row(registrationForm.nom, {
+                          'attr': {
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+
+                          }
+                      }) }}
+                      {{ form_row(registrationForm.pseudo, {
+                          'attr': {
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+
+                          }
+                      }) }}
+                      {{ form_row(registrationForm.tel, {
+                          'attr': {
+                              'class': 'form-control peer block min-h-[auto] w-full rounded border-0 bg-white dark:bg-neutral-900 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+
+                          }
+                      }) }}
                     </div>
                     
                     <!-- Agree Terms Checkbox -->
                     {{ form_row(registrationForm.agreeTerms) }}
 
                     <!-- Submit button -->
-                    <button class="btn btn-lg btn-primary" type="submit">Sign up</button>
+                    <button 
+                      class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]" 
+                      type="submit"
+                      data-te-ripple-init
+                      data-te-ripple-color= "light"
+                      style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
+                      Sign up
+                    </button>
                     
                     <div class="flex items-center justify-between pb-6">
                         <a class="mb-0 mr-2 text-purple-600" href="/login">Already have an account?</a>
@@ -60,3 +110,4 @@
     </div>
   </section>
 {% endblock %}
+{% block js %}{% endblock %}

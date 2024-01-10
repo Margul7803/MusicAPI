@@ -21,7 +21,6 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
-
     public function __construct(EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
@@ -33,20 +32,29 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            $plainPassword = $form->get('password')->getData();
+            $confirmPassword = $form->get('confirm_Password')->getData();
+            if ($plainPassword !== $confirmPassword) {
+                $this->addFlash('error', 'The passwords do not match.');
+                return $this->render('Connexion/signup.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+            // Assignation des données supplémentaires
+            $user->setPrenom($form->get('prenom')->getData());
+            $user->setNom($form->get('nom')->getData());
+            $user->setPseudo($form->get('pseudo')->getData());
+            $user->setTel($form->get('tel')->getData());
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $plainPassword
                 )
             );
 
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('beathub0@gmail.com', 'BeatHub'))
@@ -54,15 +62,12 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('Connexion/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
-
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
         }
-
         return $this->render('Connexion/signup.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
@@ -72,8 +77,6 @@ class RegistrationController extends AbstractController
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
@@ -81,10 +84,7 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_dashboard');
         }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
-
         return $this->redirectToRoute('app_dashboard');
     }
 }
