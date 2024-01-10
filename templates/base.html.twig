@@ -14,17 +14,6 @@
         <link rel="icon" type="image/x-icon" href="" />
         <!-- Core theme CSS (includes Tailwind)-->
         {% block css %}{% endblock %}
-    </head>
-    <body class="h-full w-full">
-        <!-- Section-->
-        {% block body %}{% endblock %}
-        <!-- Footer-->
-        <footer class="py-5 bg-gray-800 flex justify-center">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; BeatHub 2023</p></div>
-        </footer>
-
-        <!-- Core theme JS-->
-        <script src="https://cdn.tailwindcss.com"></script>
         <script>
             async function callApi(endpoint, body = null) {
                 const response = await fetch(`/api/${endpoint}`, {
@@ -36,5 +25,18 @@
             }
         </script>
         {% block js %}{% endblock %}
+    </head>
+    <body class="h-full w-full">
+        <!-- Section-->
+        {% block body %}{% endblock %}
+        <!-- Footer-->
+        <footer class="py-5 bg-gray-800 flex justify-center">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; BeatHub 2023</p></div>
+        </footer>
+
+        <!-- Core theme JS-->
+        <script src="https://cdn.tailwindcss.com"></script>
+
     </body>
+    {% block script %}{% endblock %}
 </html>

@@ -520,15 +520,4 @@
 <!-- partial -->
 {% endblock %}
 {% block footer %}{% endblock %}
-{% block js %}
-<script>
-  (async () => {
-    try {
-      const musiques = await callApi("musiques");
-      console.log(musiques);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  })();
-</script>
-{% endblock %}
+{% block script %}{% endblock %}
