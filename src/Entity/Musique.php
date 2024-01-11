@@ -40,9 +40,13 @@ class Musique
     #[ORM\JoinColumn(nullable: false)]
     private ?Genre $genre = null;
 
+    #[ORM\ManyToMany(targetEntity: Playlist::class, mappedBy: 'musiques')]
+    private Collection $playlists;
+
     public function __construct()
     {
         $this->Artiste = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,6 +158,33 @@ class Musique
             if (method_exists($this, $setter)) {
                 $this->$setter($value);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): static
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->addMusique($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): static
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            $playlist->removeMusique($this);
         }
 
         return $this;
