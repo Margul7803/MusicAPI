@@ -50,8 +50,7 @@ class MusiqueController extends AbstractController
         }
 
         // Utilisez la classe Response pour retourner une réponse classique
-        return $this->render('musique/index.html.twig',
-                            ['liste' => $musiquesArray]);
+        return New Response($musiquesArray);
     }
 
     #[Route('/musiques/{id}', name: 'list_Autremusiques_albums', methods: ['GET'])]
@@ -78,7 +77,7 @@ class MusiqueController extends AbstractController
 
 
         // Utilisez la classe Response pour retourner une réponse classique
-        return $this->json($musiquesArray);
+        return new Response($musiquesArray);
     }
 
     #[Route('/musiques/del/{id}', name: 'delete_musique', methods: ['DELETE'])]
@@ -94,7 +93,7 @@ class MusiqueController extends AbstractController
         $entityManager->remove($musique);
         $entityManager->flush();
 
-        return new Response('Musique supprimée avec succès');
+        return new JsonResponse(['message' => 'Musique supprimée avec succès']);
     }
 
 
@@ -114,7 +113,7 @@ class MusiqueController extends AbstractController
 
         $entityManager->flush();
 
-        return new Response('Musique mise à jour avec succès');
+        return new JsonResponse(['message' => 'Musique mise à jour avec succès']);
     }
 }
 
