@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PlaylistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
+#[ApiResource]
 class Playlist
 {
     #[ORM\Id]
@@ -14,32 +18,19 @@ class Playlist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $artist = null;
+    #[ORM\ManyToMany(targetEntity: Musique::class, inversedBy: 'playlists')]
+    private Collection $musiques;
 
-    #[ORM\Column(length: 255)]
-    private ?string $album = null;
+    public function __construct()
+    {
+        $this->musiques = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
     }
 
     public function getTitre(): ?string
@@ -54,26 +45,26 @@ class Playlist
         return $this;
     }
 
-    public function getArtist(): ?string
+    /**
+     * @return Collection<int, Musique>
+     */
+    public function getMusiques(): Collection
     {
-        return $this->artist;
+        return $this->musiques;
     }
 
-    public function setArtist(string $artist): static
+    public function addMusique(Musique $musique): static
     {
-        $this->artist = $artist;
+        if (!$this->musiques->contains($musique)) {
+            $this->musiques->add($musique);
+        }
 
         return $this;
     }
 
-    public function getAlbum(): ?string
+    public function removeMusique(Musique $musique): static
     {
-        return $this->album;
-    }
-
-    public function setAlbum(string $album): static
-    {
-        $this->album = $album;
+        $this->musiques->removeElement($musique);
 
         return $this;
     }
