@@ -21,7 +21,6 @@ class UserDataPersister implements ProcessorInterface
         $this->entityManager = $entityManager;
         $this->logger = $logger;
     }
-
     public function process($data, Operation $operation, array $variable = [], array $context = [])
     {
         echo('Persisting a new user');
