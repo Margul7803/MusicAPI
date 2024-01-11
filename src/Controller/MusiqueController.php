@@ -82,8 +82,37 @@ class MusiqueController extends AbstractController
     #[Route('/musiques/del/{id}', name: 'delete_musique', methods: ['DELETE'])]
     public function deleteMusique(ManagerRegistry $orm, $id): Response
     {
-        $musique = $orm->getRepository(Musique::class)->find($id);
-        $orm->getRepository(Musique::class)->remove($musique);
+        $entityManager = $orm->getManager();
+        $musique = $entityManager->getRepository(Musique::class)->find($id);
+
+        if (!$musique) {
+            throw $this->createNotFoundException('Musique non trouvée pour l\'id ' . $id);
+        }
+
+        $entityManager->remove($musique);
+        $entityManager->flush();
+
+        return new Response('Musique supprimée avec succès');
+    }
+
+
+    #[Route('/musiques/up/{id}', name: 'update_musique', methods: ['PUT'])]
+    public function updateMusique(ManagerRegistry $orm, Request $request, $id): Response
+    {
+        $entityManager = $orm->getManager();
+        $musique = $entityManager->getRepository(Musique::class)->find($id);
+
+        if (!$musique) {
+            throw $this->createNotFoundException('Musique non trouvée pour l\'id ' . $id);
+        }
+
+        // Mettez à jour l'entité Musique en utilisant la méthode dédiée
+        $data = json_decode($request->getContent(), true);
+        $musique->updateMusique($data);
+
+        $entityManager->flush();
+
+        return new Response('Musique mise à jour avec succès');
     }
 }
 
