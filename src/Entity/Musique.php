@@ -145,4 +145,18 @@ class Musique
 
         return $this;
     }
+
+    public function updateMusique(array $data): self
+    {
+        foreach ($data as $key => $value) {
+            $setter = 'set' . ucfirst($key);
+
+            if (method_exists($this, $setter)) {
+                $this->$setter($value);
+            }
+        }
+
+        return $this;
+    }
+
 }
