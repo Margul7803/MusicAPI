@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Musique;
+use Symfony\Component\HttpFoundation\Request;
+
 
 
 class MusiqueController extends AbstractController
