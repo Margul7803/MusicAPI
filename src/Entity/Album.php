@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use App\Repository\AlbumRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
 #[ApiResource]
+#[ApiFilter(DateFilter::class, properties: ['dateSortie'])]
 class Album
 {
     #[ORM\Id]
