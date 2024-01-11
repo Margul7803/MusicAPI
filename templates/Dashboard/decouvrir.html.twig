@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Styles CSS pour le slider */
+    .swiper-container {
+      width: 100%;
+      overflow: hidden; /* Masquer les éléments en dehors du conteneur */
+      position: relative; /* Position relative pour les éléments enfants absolus */
+    }
+
+    .swiper-slide {
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #181818;
+      display: inline-block; /* Afficher les diapositives en ligne */
+      white-space: normal; /* Rétablir le retour à la ligne pour le texte */
+      width: calc(100% / 6 - 20px); /* Largeur de chaque diapositive, en tenant compte de l'espace entre */
+      margin-right: 20px; /* Espace entre les diapositives */
+    }
+
+    .swiper-slide img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .music-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: white;
+    }
+
+    .gray-text {
+      font-size: 14px;
+      color: #888; /* Couleur grise */
+    }
+
+    /* Conteneur pour les boutons de navigation */
+    .swiper-button-container {
+      position: absolute; /* Position absolue par rapport au conteneur */
+      top: 50%; /* Aligner verticalement au milieu du slider */
+      transform: translateY(-50%); /* Ajuster la position verticale */
+      display: flex;
+      justify-content: space-between;
+      width: 100%; /* Largeur totale du slider */
+      padding: 0 20px; /* Ajouter de l'espace sur les côtés */
+      z-index: 2; /* Mettre au-dessus des diapositives */
+    }
+
+    /* Styles pour les boutons de navigation */
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 30px; /* Largeur des boutons */
+      height: 30px; /* Hauteur des boutons */
+      background-color: transparent; /* Fond transparent */
+      border: none; /* Pas de bordure */
+      color: #C084FC; /* Couleur du texte des boutons */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px; /* Taille de la police */
+    }
+  </style>
+</head>
+<body>
+
+<section class="px-6 grid gap-6 mb-8">
+  <div class="flex items-ceter">
+    <div class="flex-1">
+      <h3 class="text-2xl text-white">
+        <a class="border-b border-transparent hover:border-white" href="">Découvrir</a>
+      </h3>
+    </div>
+    <div>
+      <a class="text-xs text-white tracking-widest uppercase hover:underline" href="">Voir tout</a>
+    </div>
+  </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for musique in musiques %}
+      <div class="swiper-slide">
+        <div class="relative pt-full">
+          <img src="https://picsum.photos/129.webp?random={{ musique.id }}" alt="" />
+        </div>
+        <div class="music-title">
+          {{ musique.titre }}
+          <span class="gray-text"><br>
+          - By
+          {% for artiste in artistes %}
+            {% if artiste.id == musique.id %}
+              {{ artiste.nom }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- Conteneur pour les boutons de navigation -->
+    <div class="swiper-button-container">
+      <!-- Bouton Suivant -->
+      <div class="swiper-button-next"></div>
+      <!-- Bouton Précédent -->
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Initialisation du slider Swiper
+  var mySwiper = new Swiper('.swiper-container', {
+    slidesPerView: 6, // Nombre de diapositives visibles à la fois
+    spaceBetween: 20, // Espace entre les diapositives
+    navigation: {
+      nextEl: '.swiper-button-next', // Sélecteur du bouton Suivant
+      prevEl: '.swiper-button-prev', // Sélecteur du bouton Précédent
+    },
+  });
+</script>
+
+</body>
+</html>
