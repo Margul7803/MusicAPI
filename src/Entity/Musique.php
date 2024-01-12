@@ -13,7 +13,6 @@ use App\Filter\RegexpFilter;
 
 #[ORM\Entity(repositoryClass: MusiqueRepository::class)]
 #[ApiResource]
-#[ApiFilter(RegexpFilter::class)]
 class Musique
 {
     #[ORM\Id]
