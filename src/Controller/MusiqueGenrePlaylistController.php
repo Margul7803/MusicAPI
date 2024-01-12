@@ -19,7 +19,7 @@ class MusiqueGenrePlaylistController extends AbstractController
         $this->playlistRepository = $playlistRepository;
     }
 
-    public function __invoke(string $id, string $name): Response
+    public function __invoke(string $id, string $genreid): Response
     {
         // Fetch the user by ID
         $playlist = $this->playlistRepository->find($id);
@@ -33,7 +33,7 @@ class MusiqueGenrePlaylistController extends AbstractController
         $musiques = $playlist->getMusiques();
 
 
-        $musiques = $this->musiqueRepository->findBy(['genre' => $name]);
+        $musiques = $this->musiqueRepository->findBy(['genre' => $genreid]);
         // Return the playlists in JSON format
         return $this->json($musiques);
     }
