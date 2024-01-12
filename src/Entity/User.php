@@ -21,23 +21,7 @@ use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ApiResource(
-        collectionOperations: [
-        new Get(
-            uriTemplate: '/suggestions',
-            parameters: [
-                'level' => [
-                    'description' => 'Levels available in result',
-                    'required' => true,
-                    'schema' => [
-                        'type' => 'array',
-                        'items' => ['type' => 'integer'],
-                    ],
-                ],
-            ],
-        ),
-    ],
-    itemOperations: ['get' => new Get()],
+#[ApiResource(  
     operations: [
         new Post(input: User::class, output: UserInput::class, uriTemplate: 'users'),
         new Get(uriTemplate: 'users/{email}'),
@@ -50,7 +34,7 @@ use Doctrine\Common\Collections\Collection;
 #[ApiFilter(OrderFilter::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
-{    
+{   
     #[ORM\Id]
     #[ApiProperty(identifier: true)]
     #[Groups(groups: ['read:User'])]

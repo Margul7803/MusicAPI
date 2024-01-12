@@ -27,6 +27,7 @@ class UserDataPersister implements ProcessorInterface
         $user->setNom($data->nom);
         $user->setPrenom($data->prenom);
         $user->setTel($data->tel);
+        $user->setRole(['USER']);
 
         // Enregistrement de l'utilisateur dans la base de données
         $this->entityManager->persist($user);
