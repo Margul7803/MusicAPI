@@ -13,7 +13,6 @@ use App\Filter\LikeFilter;
 
 #[ORM\Entity(repositoryClass: MusiqueRepository::class)]
 #[ApiResource]
-#[ApiFilter(LikeFilter::class, properties: ['titre'])]
 class Musique
 {
     #[ORM\Id]
