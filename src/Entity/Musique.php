@@ -9,11 +9,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
-use App\Filter\RegexpFilter;
+use App\Filter\LikeFilter;
 
 #[ORM\Entity(repositoryClass: MusiqueRepository::class)]
 #[ApiResource]
-#[ApiFilter(RegexpFilter::class)]
+#[ApiFilter(LikeFilter::class, properties: ['titre'])]
 class Musique
 {
     #[ORM\Id]
