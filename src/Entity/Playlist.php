@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(input: PlaylistInput::class, output: Playlist::class),
+        new Post(input: Playlist::class, output: PlaylistInput::class),
         new Get(),
         new Put(),
         new Delete(),
@@ -33,9 +33,9 @@ class Playlist
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'playlists')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "playlists")]
+    #[ORM\JoinColumn(name: "user_email", referencedColumnName: "email")]
+    private ?User $user;
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
@@ -99,4 +99,6 @@ class Playlist
         $this->user = $user;
         return $this;
     }
+
+    
 }
