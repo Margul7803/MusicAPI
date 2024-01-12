@@ -2,13 +2,13 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Playlist;
-use App\Dto\PlaylistInput;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Metadata\Operation;
+use App\Repository\UserRepository;
 
-class PlaylistDataPersister implements ContextAwareDataPersisterInterface
+class PlaylistDataPersister implements ProcessorInterface
 {
     private EntityManagerInterface $entityManager;
     private UserRepository $userRepository;
@@ -19,27 +19,32 @@ class PlaylistDataPersister implements ContextAwareDataPersisterInterface
         $this->userRepository = $userRepository;
     }
 
-    public function supports($data, array $context = []): bool
-    {
-        return $data instanceof PlaylistInput;
-    }
-
-    public function persist($data, array $context = [])
+    public function process($data, Operation $operation, array $variable = [], array $context = [])
     {
         $playlist = new Playlist();
         $playlist->setTitre($data->titre);
 
-        if ($data->userEmail) {
-            $user = $this->userRepository->find($data->userEmail);
+        if ($data->user_id) {
+            $user = $this->userRepository->find($data->user_id);
             if ($user) {
                 $playlist->setUser($user);
+
+                $this->entityManager->persist($playlist);
+                $this->entityManager->flush();
+
+                // After persisting the playlist, add it to the user's playlists
+                // This will also update the playlistLinks in User entity
+                $user->addPlaylist($playlist);
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+
             } else {
                 throw new \Exception("Utilisateur non trouvé.");
             }
+        } else {
+            $this->entityManager->persist($playlist);
+            $this->entityManager->flush();
         }
-
-        $this->entityManager->persist($playlist);
-        $this->entityManager->flush();
 
         return $playlist;
     }

@@ -15,10 +15,11 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\DataPersister\UserDataPersister:
         class: App\DataPersister\UserDataPersister
-        arguments:
-            $logger: '@logger'
     App\DataPersister\PlaylistDataPersister:
-        tags: ['api_platform.data_persister']
+        class: App\DataPersister\PlaylistDataPersister
+    App\Controller\GetUserByEmailAction:
+         class: App\Controller\GetUserByEmailAction
+        
     App\:
         resource: '../src/'
         exclude:

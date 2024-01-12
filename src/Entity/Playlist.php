@@ -13,19 +13,28 @@ use App\Dto\PlaylistInput;
 use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\UserPlaylistsController;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(input: PlaylistInput::class, output: Playlist::class),
+        new GetCollection(
+            uriTemplate: '/users/{id}/playlists',
+            controller: UserPlaylistsController::class,
+            name: 'get_user_playlists'
+        ),
+        new Post(input: Playlist::class, output: PlaylistInput::class),
         new Get(),
         new Put(),
         new Delete(),
         new Patch()
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['user' => 'exact'])]
 class Playlist
 {
     #[ORM\Id]
@@ -33,9 +42,9 @@ class Playlist
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'playlists')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "playlists")]
+    #[ORM\JoinColumn(name: "user_email", referencedColumnName: "email")]
+    private ?User $user;
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
@@ -99,4 +108,6 @@ class Playlist
         $this->user = $user;
         return $this;
     }
+
+    
 }
