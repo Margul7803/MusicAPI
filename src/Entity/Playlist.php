@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -9,14 +10,15 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Patch;
+use App\Controller\MusiqueGenrePlaylistController;
 use App\Dto\PlaylistInput;
 use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\UserPlaylistsController;
+use App\Filter\RegexpFilter;
+use ApiPlatform\Metadata\Link;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
 #[ApiResource(
@@ -31,10 +33,14 @@ use App\Controller\UserPlaylistsController;
         new Get(),
         new Put(),
         new Delete(),
-        new Patch()
+        new Patch(),
+        new GetCollection(
+            uriTemplate: '/playlists/{id}/genre/{genreid}',
+            controller: MusiqueGenrePlaylistController::class,
+            name: 'get_musique_genre_playlists',
+        ),
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['user' => 'exact'])]
 class Playlist
 {
     #[ORM\Id]
@@ -108,6 +114,4 @@ class Playlist
         $this->user = $user;
         return $this;
     }
-
-    
 }
