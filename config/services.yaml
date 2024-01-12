@@ -6,6 +6,11 @@
 parameters:
 
 services:
+    App\Service\MusiqueModificationListener:
+        arguments:
+            $notifier: '@notifier'
+        tags:
+            - { name: 'doctrine.event_listener', event: 'postUpdate', entity: 'App\Entity\Musique' }
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
