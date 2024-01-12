@@ -9,32 +9,40 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
 use App\Dto\UserInput;
+use App\Entity\Playlist;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
     operations: [
-        new GetCollection(),
-        new Post(input: User::class, output: UserInput::class),
-        new Get(),
-        new Put(),
-        new Patch()
-    ]
+        new Post(input: User::class, output: UserInput::class, uriTemplate: 'users'),
+        new Get(uriTemplate: 'users/{email}'),
+        new Put(uriTemplate: 'users/{email}'),
+        new Patch(uriTemplate: 'users/{email}'),
+        new GetCollection(uriTemplate: 'users'),
+    ],
+    normalizationContext: ['groups' => ['read:User']]
 )]
+#[ApiFilter(OrderFilter::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 180, unique: true)]
+    #[ApiProperty(identifier: true)]
+    #[Groups(groups: ['read:User'])]
+    #[ORM\Column(unique: true, nullable: false, type: 'string')]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -64,10 +72,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: Playlist::class)]
+    private Collection $playlists;
+
+    /**
+     * @var array
+     * @ORM\Column(type="json")
+     */
+    private array $playlistLinks = [];
 
     public function getEmail(): ?string
     {
@@ -124,6 +136,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = base64_encode($password);
 
         return $this;
+    }
+
+
+    public function __construct()
+    {
+        $this->playlists = new ArrayCollection();
     }
 
     /**
@@ -205,5 +223,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): self
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists[] = $playlist;
+            $playlist->setUser($this);
+
+            // Add the link to the playlistLinks array
+            $this->playlistLinks[] = 'api/playlists/' . $playlist->getId();
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): self
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getUser() === $this) {
+                $playlist->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlaylistLinks(): array
+    {
+        return $this->playlistLinks;
     }
 }

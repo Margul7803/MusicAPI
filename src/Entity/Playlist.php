@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -9,21 +10,35 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Patch;
+use App\Controller\MusiqueGenrePlaylistController;
 use App\Dto\PlaylistInput;
 use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\UserPlaylistsController;
+use App\Filter\RegexpFilter;
+use ApiPlatform\Metadata\Link;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(input: PlaylistInput::class, output: Playlist::class),
+        new GetCollection(
+            uriTemplate: '/users/{id}/playlists',
+            controller: UserPlaylistsController::class,
+            name: 'get_user_playlists'
+        ),
+        new Post(input: Playlist::class, output: PlaylistInput::class),
         new Get(),
         new Put(),
         new Delete(),
-        new Patch()
+        new Patch(),
+        new GetCollection(
+            uriTemplate: '/playlists/{id}/genre/{genreid}',
+            controller: MusiqueGenrePlaylistController::class,
+            name: 'get_musique_genre_playlists',
+        ),
     ]
 )]
 class Playlist
@@ -33,9 +48,9 @@ class Playlist
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'playlists')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "playlists")]
+    #[ORM\JoinColumn(name: "user_email", referencedColumnName: "email")]
+    private ?User $user;
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
