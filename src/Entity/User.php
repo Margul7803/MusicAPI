@@ -22,6 +22,22 @@ use Doctrine\Common\Collections\Collection;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
+        collectionOperations: [
+        new Get(
+            uriTemplate: '/suggestions',
+            parameters: [
+                'level' => [
+                    'description' => 'Levels available in result',
+                    'required' => true,
+                    'schema' => [
+                        'type' => 'array',
+                        'items' => ['type' => 'integer'],
+                    ],
+                ],
+            ],
+        ),
+    ],
+    itemOperations: ['get' => new Get()],
     operations: [
         new Post(input: User::class, output: UserInput::class, uriTemplate: 'users'),
         new Get(uriTemplate: 'users/{email}'),
