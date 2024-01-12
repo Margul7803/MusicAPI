@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use App\Filter\RegexpFilter;
 
 #[ORM\Entity(repositoryClass: MusiqueRepository::class)]
 #[ApiResource]
+#[ApiFilter(RegexpFilter::class)]
 class Musique
 {
     #[ORM\Id]
@@ -189,5 +192,4 @@ class Musique
 
         return $this;
     }
-
 }

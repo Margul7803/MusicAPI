@@ -18,7 +18,7 @@ services:
     App\DataPersister\PlaylistDataPersister:
         class: App\DataPersister\PlaylistDataPersister
     App\Controller\GetUserByEmailAction:
-         class: App\Controller\GetUserByEmailAction
+        class: App\Controller\GetUserByEmailAction
         
     App\:
         resource: '../src/'

@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Operation;
 use App\Dto\UserInput;
 use App\Entity\Playlist;
 use App\Repository\UserRepository;
@@ -18,26 +17,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
-        collectionOperations: [
-        new Get(
-            uriTemplate: '/suggestions',
-            parameters: [
-                'level' => [
-                    'description' => 'Levels available in result',
-                    'required' => true,
-                    'schema' => [
-                        'type' => 'array',
-                        'items' => ['type' => 'integer'],
-                    ],
-                ],
-            ],
-        ),
-    ],
-    itemOperations: ['get' => new Get()],
     operations: [
         new Post(input: User::class, output: UserInput::class, uriTemplate: 'users'),
         new Get(uriTemplate: 'users/{email}'),
@@ -50,7 +38,7 @@ use Doctrine\Common\Collections\Collection;
 #[ApiFilter(OrderFilter::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
-{    
+{
     #[ORM\Id]
     #[ApiProperty(identifier: true)]
     #[Groups(groups: ['read:User'])]
@@ -237,7 +225,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-     /**
+    /**
      * @return Collection<int, Playlist>
      */
     public function getPlaylists(): Collection
