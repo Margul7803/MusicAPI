@@ -2,44 +2,36 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use ApiPlatform\State\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 use App\Dto\UserInput;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use ApiPlatform\Metadata\Operation;
 
-class UserDataPersister implements ContextAwareDataPersisterInterface
+class UserDataPersister implements ProcessorInterface
 {
     private $passwordEncoder;
     private $entityManager;
     private $logger;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->entityManager = $entityManager;
         $this->logger = $logger;
     }
 
-    public function supports($data, array $context = []): bool
+    public function process($data, Operation $operation, array $variable = [], array $context = [])
     {
-        return $data instanceof UserInput;
-    }
-
-    public function persist($data, array $context = [])
-    {
-        $this->logger->info('Persisting a new user');
+        echo('Persisting a new user');
         $user = new User();
         $user->setEmail($data->email);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $data->password));
+        $user->setPassword($data->password);
         $user->setPseudo($data->pseudo);
         $user->setNom($data->nom);
         $user->setPrenom($data->prenom);
         $user->setTel($data->tel);
-        $user->setIsVerified(true);
-        $user->setRoles(["USER"]);
-        $user->setArtiste("/api/artistes/71");
 
 
         $this->logger->info('User created with email: ' . $user->getEmail());

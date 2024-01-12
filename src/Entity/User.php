@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
 use App\Dto\UserInput;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,9 +20,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(input: UserInput::class),
+        new Post(input: User::class, output: UserInput::class),
         new Get(),
-        new Put()
+        new Put(),
+        new Patch()
     ]
 )]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -113,12 +115,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
+        $this->password = base64_decode($this->password);
         return $this->password;
     }
 
     public function setPassword(string $password): static
     {
-        $this->password = $password;
+        $this->password = base64_encode($password);
 
         return $this;
     }
